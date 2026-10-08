@@ -1,0 +1,31 @@
+# Ignore Visual Studio / MSBuild build artifacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Ignore database files
+*.db
+*.db-shm
+*.db-wal
+payroll.db
+
+# Ignore test artifacts
+TestResults/
+*.trx
+coverage*.json
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore secrets
+appsettings.Development.json
+*.pfx
+*.key
