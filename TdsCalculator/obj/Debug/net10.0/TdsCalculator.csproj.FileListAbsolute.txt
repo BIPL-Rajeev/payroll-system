@@ -1,0 +1,14 @@
+E:\Freebuff\TdsCalculator\bin\Debug\net10.0\TdsCalculator.exe
+E:\Freebuff\TdsCalculator\bin\Debug\net10.0\TdsCalculator.deps.json
+E:\Freebuff\TdsCalculator\bin\Debug\net10.0\TdsCalculator.runtimeconfig.json
+E:\Freebuff\TdsCalculator\bin\Debug\net10.0\TdsCalculator.dll
+E:\Freebuff\TdsCalculator\bin\Debug\net10.0\TdsCalculator.pdb
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.AssemblyInfoInputs.cache
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.AssemblyInfo.cs
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.csproj.CoreCompileInputs.cache
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.dll
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\refint\TdsCalculator.dll
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.pdb
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\TdsCalculator.genruntimeconfig.cache
+E:\Freebuff\TdsCalculator\obj\Debug\net10.0\ref\TdsCalculator.dll

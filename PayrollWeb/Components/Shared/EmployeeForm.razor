@@ -1,0 +1,175 @@
+@inject ApiClient Api
+@inject ToastService Toasts
+@inject NavigationManager Nav
+
+<EditForm Model="Model" OnValidSubmit="OnSubmit" FormName="@FormName">
+    <DataAnnotationsValidator />
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label" for="f-code">Employee code *</label>
+            <InputText id="f-code" class="form-control" @bind-Value="Model.EmployeeCode" />
+            <ValidationMessage For="() => Model.EmployeeCode" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="f-name">Name *</label>
+            <InputText id="f-name" class="form-control" @bind-Value="Model.Name" />
+            <ValidationMessage For="() => Model.Name" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="f-pan">PAN</label>
+            <InputText id="f-pan" class="form-control" @bind-Value="Model.Pan" placeholder="ABCDE1234F" />
+            <ValidationMessage For="() => Model.Pan" />
+        </div>
+    </div>
+
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+            <label class="form-label" for="f-state">State *</label>
+            <InputSelect id="f-state" class="form-select" @bind-Value="Model.State">
+                <option value="">-- select state --</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+            </InputSelect>
+            <ValidationMessage For="() => Model.State" />
+        </div>
+    </div>
+
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+            <label class="form-label">Tax regime</label>
+            <InputSelect class="form-select" @bind-Value="Model.TaxRegime">
+                <option value="new">New</option>
+                <option value="old">Old</option>
+            </InputSelect>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label d-block">&nbsp;</label>
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" @bind-Value="Model.IsMetro" id="isMetro" />
+                <label class="form-check-label" for="isMetro">Metro city (HRA)</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label d-block">&nbsp;</label>
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" @bind-Value="Model.IsFirstYearEmployee" id="firstYear" />
+                <label class="form-check-label" for="firstYear">First-year employee (ESI)</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label d-block">&nbsp;</label>
+            <div class="form-check">
+                <InputCheckbox class="form-check-input" @bind-Value="Model.HasDisability" id="disability" />
+                <label class="form-check-label" for="disability">Disability (ESI)</label>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <h6>Monthly salary (Rs)</h6>
+    <div class="row g-3">
+        <div class="col-md-4"><label class="form-label" for="f-basic">Basic</label>
+            <InputNumber id="f-basic" class="form-control" @bind-Value="Model.MonthlyBasic" />
+            <ValidationMessage For="() => Model.MonthlyBasic" /></div>
+        <div class="col-md-4"><label class="form-label">HRA</label>
+            <InputNumber class="form-control" @bind-Value="Model.MonthlyHra" />
+            <ValidationMessage For="() => Model.MonthlyHra" /></div>
+        <div class="col-md-4"><label class="form-label">DA</label>
+            <InputNumber class="form-control" @bind-Value="Model.MonthlyDa" />
+            <ValidationMessage For="() => Model.MonthlyDa" /></div>
+        <div class="col-md-4"><label class="form-label">Special allowance</label>
+            <InputNumber class="form-control" @bind-Value="Model.MonthlySpecialAllowance" />
+            <ValidationMessage For="() => Model.MonthlySpecialAllowance" /></div>
+        <div class="col-md-4"><label class="form-label">LTA</label>
+            <InputNumber class="form-control" @bind-Value="Model.MonthlyLta" />
+            <ValidationMessage For="() => Model.MonthlyLta" /></div>
+        <div class="col-md-4"><label class="form-label">Other allowances</label>
+            <InputNumber class="form-control" @bind-Value="Model.MonthlyOtherAllowances" />
+            <ValidationMessage For="() => Model.MonthlyOtherAllowances" /></div>
+    </div>
+
+    <hr />
+    <h6>Annual rent &amp; investments (Rs)</h6>
+    <div class="row g-3">
+        <div class="col-md-4"><label class="form-label">Annual rent paid</label>
+            <InputNumber class="form-control" @bind-Value="Model.AnnualRentPaid" />
+            <ValidationMessage For="() => Model.AnnualRentPaid" /></div>
+        <div class="col-md-4"><label class="form-label">80C</label>
+            <InputNumber class="form-control" @bind-Value="Model.Investment80C" />
+            <ValidationMessage For="() => Model.Investment80C" /></div>
+        <div class="col-md-4"><label class="form-label">80CCD(1B)</label>
+            <InputNumber class="form-control" @bind-Value="Model.Investment80CCD1B" />
+            <ValidationMessage For="() => Model.Investment80CCD1B" /></div>
+        <div class="col-md-4"><label class="form-label">80D</label>
+            <InputNumber class="form-control" @bind-Value="Model.Investment80D" />
+            <ValidationMessage For="() => Model.Investment80D" /></div>
+        <div class="col-md-4"><label class="form-label">80TTA</label>
+            <InputNumber class="form-control" @bind-Value="Model.Investment80TTA" />
+            <ValidationMessage For="() => Model.Investment80TTA" /></div>
+        <div class="col-md-4"><label class="form-label">Home loan interest 24(b)</label>
+            <InputNumber class="form-control" @bind-Value="Model.HomeLoanInterest" />
+            <ValidationMessage For="() => Model.HomeLoanInterest" /></div>
+    </div>
+
+    @if (submitError is not null)
+    {
+        <div class="alert alert-danger mt-3">@submitError</div>
+    }
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary" disabled="@busy">
+            @if (busy)
+            {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            @SubmitLabel
+        </button>
+        <a class="btn btn-outline-secondary ms-2" href="employees">Cancel</a>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public EmployeeFormModel Model { get; set; } = new();
+    [Parameter] public int EmployeeId { get; set; }
+    [Parameter] public string SubmitLabel { get; set; } = "Save";
+    [Parameter] public string FormName { get; set; } = "employee-form";
+
+    private bool busy;
+    private string? submitError;
+
+    private async Task OnSubmit()
+    {
+        busy = true;
+        submitError = null;
+        try
+        {
+            if (EmployeeId == 0)
+            {
+                await Api.CreateEmployeeAsync(Model);
+                Toasts.ShowSuccess($"Employee {Model.EmployeeCode} created.");
+            }
+            else
+            {
+                await Api.UpdateEmployeeAsync(EmployeeId, Model);
+                Toasts.ShowSuccess($"Employee {Model.EmployeeCode} updated.");
+            }
+            Nav.NavigateTo("/employees");
+        }
+        catch (ApiException ex)
+        {
+            submitError = ex.Message;
+            Toasts.ShowError(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            submitError = ex.Message;
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+}

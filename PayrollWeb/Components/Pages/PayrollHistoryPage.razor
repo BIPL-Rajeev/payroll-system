@@ -1,0 +1,90 @@
+@page "/payroll/history/{employeeId:int}"
+@inject ApiClient Api
+@inject ToastService Toasts
+
+<PageTitle>Payroll History - PayrollWeb</PageTitle>
+
+<h3 class="mb-3">Payroll History</h3>
+
+@if (loading)
+{
+    <Spinner Text="Loading history..." />
+}
+else if (notFound)
+{
+    <div class="alert alert-danger">Employee @EmployeeId not found.</div>
+    <a class="btn btn-outline-secondary" href="employees">Back to employees</a>
+}
+else
+{
+    <div class="mb-3">
+        <a class="btn btn-outline-primary btn-sm" href="payroll/run/@EmployeeId">Run new payroll</a>
+        <a class="btn btn-outline-secondary btn-sm ms-2" href="employees">Back to employees</a>
+    </div>
+
+    @if (runs.Count == 0)
+    {
+        <div class="alert alert-info">No payroll runs yet for this employee.</div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th class="text-end">Gross</th>
+                    <th class="text-end">Deductions</th>
+                    <th class="text-end">Net Pay</th>
+                    <th class="text-end">CTC</th>
+                    <th>Generated</th>
+                    <th class="text-end">Slip</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in runs)
+                {
+                    <tr>
+                        <td>@MonthNames.Get(r.MonthNumber) @r.Year</td>
+                        <td class="text-end">@Inr.Format(r.GrossSalary)</td>
+                        <td class="text-end">@Inr.Format(r.TotalDeductions)</td>
+                        <td class="text-end fw-bold">@Inr.Format(r.NetPay)</td>
+                        <td class="text-end">@Inr.Format(r.TotalCtc)</td>
+                        <td>@Inr.Format(r.GeneratedAt)</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-dark" href="payroll/slip/@r.PayrollRunId">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    [Parameter] public int EmployeeId { get; set; }
+
+    private bool loading = true;
+    private bool notFound;
+    private List<PayrollRunSummary> runs = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            runs = await Api.GetHistoryAsync(EmployeeId);
+        }
+        catch (ApiException ex) when (ex.Message.Contains("not found"))
+        {
+            notFound = true;
+            Toasts.ShowError(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

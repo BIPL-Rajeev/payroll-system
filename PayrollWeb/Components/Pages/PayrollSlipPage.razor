@@ -1,0 +1,135 @@
+@page "/payroll/slip/{payrollRunId:int}"
+@inject ApiClient Api
+@inject ToastService Toasts
+@inject IJSRuntime JS
+@inject HttpClient Http
+
+<PageTitle>Salary Slip - PayrollWeb</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3 no-print">
+    <h3 class="mb-0">Salary Slip</h3>
+    <div>
+        <button class="btn btn-primary" @onclick="PrintAsync">
+            🖨 Print
+        </button>
+        <a class="btn btn-success ms-2" href="@PdfUrl" target="_blank" rel="noopener">
+            ⬇ Download PDF
+        </a>
+        <a class="btn btn-outline-secondary ms-2" href="payroll/history/@slip?.EmployeeId">Back to history</a>
+    </div>
+</div>
+
+@if (loading)
+{
+    <Spinner Text="Loading slip..." />
+}
+else if (slip is null)
+{
+    <div class="alert alert-danger">Payroll run @PayrollRunId not found.</div>
+}
+else
+{
+    <div class="card" id="slip">
+        <div class="card-header text-center">
+            <h5 class="mb-0">Payslip - @MonthNames.Get(slip.MonthNumber) @slip.Year</h5>
+            <div class="small text-muted">Generated @Inr.Format(slip.GeneratedAt) (run #@slip.PayrollRunId)</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6"><strong>Employee ID:</strong> @slip.EmployeeId</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="border-bottom pb-1">EARNINGS</h6>
+                    <table class="table table-sm">
+                        <tbody>
+                            @foreach (var d in Details("Earning"))
+                            {
+                                <tr><td>@d.ComponentName</td><td class="text-end">@Inr.Format(d.Amount)</td></tr>
+                            }
+                            <tr class="table-light fw-bold">
+                                <td>Gross Monthly Salary</td>
+                                <td class="text-end">@Inr.Format(slip.GrossSalary)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="border-bottom pb-1">DEDUCTIONS</h6>
+                    <table class="table table-sm">
+                        <tbody>
+                            @foreach (var d in Details("Deduction"))
+                            {
+                                <tr><td>@d.ComponentName</td><td class="text-end">@Inr.Format(d.Amount)</td></tr>
+                            }
+                            <tr class="table-light fw-bold">
+                                <td>Total Deductions</td>
+                                <td class="text-end">@Inr.Format(slip.TotalDeductions)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h6 class="border-bottom pb-1 mt-3">EMPLOYER CONTRIBUTIONS (cost to company)</h6>
+            <table class="table table-sm" style="max-width: 50%;">
+                <tbody>
+                    @foreach (var d in Details("EmployerContribution"))
+                    {
+                        <tr><td>@d.ComponentName</td><td class="text-end">@Inr.Format(d.Amount)</td></tr>
+                    }
+                    <tr class="table-light fw-bold">
+                        <td>Total Employer Cost</td>
+                        <td class="text-end">@Inr.Format(slip.TotalEmployerCost)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row text-center mt-4">
+                <div class="col">
+                    <div class="border rounded p-3 bg-light">
+                        <div class="text-muted small">Net Monthly Take-Home</div>
+                        <div class="h4 text-success mb-0">@Inr.Format(slip.NetPay)</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="border rounded p-3 bg-light">
+                        <div class="text-muted small">Total CTC</div>
+                        <div class="h4 mb-0">@Inr.Format(slip.TotalCtc)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int PayrollRunId { get; set; }
+
+    private bool loading = true;
+    private PayrollRunResult? slip;
+
+    private IEnumerable<PayrollRunDetailLine> Details(string type) =>
+        slip?.Details.Where(d => d.ComponentType == type) ?? [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            slip = await Api.GetSlipAsync(PayrollRunId);
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private string PdfUrl => $"{Http.BaseAddress}api/payroll/slip/{PayrollRunId}/pdf";
+
+    private async Task PrintAsync() => await JS.InvokeVoidAsync("window.print");
+}

@@ -1,0 +1,11 @@
+@page "/employees/add"
+
+<PageTitle>Add Employee - PayrollWeb</PageTitle>
+
+<h3 class="mb-3">Add Employee</h3>
+
+<EmployeeForm Model="model" EmployeeId="0" SubmitLabel="Add Employee" FormName="add-employee" />
+
+@code {
+    private EmployeeFormModel model = new();
+}

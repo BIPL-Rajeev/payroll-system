@@ -1,0 +1,14 @@
+E:\Freebuff\PtCalculator\bin\Debug\net10.0\PtCalculator.exe
+E:\Freebuff\PtCalculator\bin\Debug\net10.0\PtCalculator.deps.json
+E:\Freebuff\PtCalculator\bin\Debug\net10.0\PtCalculator.runtimeconfig.json
+E:\Freebuff\PtCalculator\bin\Debug\net10.0\PtCalculator.dll
+E:\Freebuff\PtCalculator\bin\Debug\net10.0\PtCalculator.pdb
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.AssemblyInfoInputs.cache
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.AssemblyInfo.cs
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.csproj.CoreCompileInputs.cache
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.dll
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\refint\PtCalculator.dll
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.pdb
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\PtCalculator.genruntimeconfig.cache
+E:\Freebuff\PtCalculator\obj\Debug\net10.0\ref\PtCalculator.dll

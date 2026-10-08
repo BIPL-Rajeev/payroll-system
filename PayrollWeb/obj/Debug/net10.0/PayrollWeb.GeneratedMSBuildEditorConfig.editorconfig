@@ -1,0 +1,96 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PayrollWeb
+build_property.RootNamespace = PayrollWeb
+build_property.ProjectDir = E:\Freebuff\PayrollWeb\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 10.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\Freebuff\PayrollWeb
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[E:/Freebuff/PayrollWeb/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/EmployeeAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZUFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/EmployeeEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZUVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/Employees.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/Form16Page.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xGb3JtMTZQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/NotFound.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOb3RGb3VuZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/PayrollHistoryPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQYXlyb2xsSGlzdG9yeVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/PayrollRunPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQYXlyb2xsUnVuUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Pages/PayrollSlipPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQYXlyb2xsU2xpcFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Shared/EmployeeForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcRW1wbG95ZWVGb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Shared/Spinner.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcU3Bpbm5lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Freebuff/PayrollWeb/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-3i4e3azzbj
+
+[E:/Freebuff/PayrollWeb/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-p6ygb0pol4
+
+[E:/Freebuff/PayrollWeb/Components/Layout/ReconnectModal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcUmVjb25uZWN0TW9kYWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-sx8s9ycj1v

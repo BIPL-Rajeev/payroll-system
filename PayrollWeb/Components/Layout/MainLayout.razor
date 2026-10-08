@@ -1,0 +1,48 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject ToastService Toasts
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <span class="text-muted">Indian Payroll - FY 2025-26</span>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@if (Toasts.Current is { } toast)
+{
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+        <div class="toast show border-0 text-bg-@toast.Type" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">@toast.Message</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="Toasts.Clear" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Toasts.OnChange += OnToastChanged;
+    }
+
+    private void OnToastChanged() => _ = InvokeAsync(StateHasChanged);
+
+    public void Dispose() => Toasts.OnChange -= OnToastChanged;
+}

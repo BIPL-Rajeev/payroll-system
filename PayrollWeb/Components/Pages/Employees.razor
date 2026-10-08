@@ -1,0 +1,133 @@
+@page "/employees"
+@inject ApiClient Api
+@inject ToastService Toasts
+
+<PageTitle>Employees - PayrollWeb</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Employees</h3>
+    <a class="btn btn-primary" href="employees/add">+ Add New</a>
+</div>
+
+@if (loading)
+{
+    <Spinner Text="Loading employees..." />
+}
+else if (error is not null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+else
+{
+    <div class="mb-3">
+        <input class="form-control" placeholder="Search by code or name..."
+               @bind="search" @bind:event="oninput" />
+    </div>
+
+    @if (!FilteredEmployees.Any())
+    {
+        <div class="alert alert-info">
+            @(employees.Count == 0
+                ? "No employees yet. Click \"Add New\" to create one."
+                : "No employees match your search.")
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>Regime</th>
+                    <th class="text-end">Monthly Basic</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var e in FilteredEmployees)
+                {
+                    <tr>
+                        <td>@e.EmployeeCode</td>
+                        <td>@e.Name</td>
+                        <td>@e.State</td>
+                        <td>@(e.TaxRegime == "old" ? "Old" : "New")</td>
+                        <td class="text-end">@Inr.Format(e.MonthlyBasic)</td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a class="btn btn-outline-primary" href="payroll/run/@e.Id">Run</a>
+                                <a class="btn btn-outline-secondary" href="payroll/history/@e.Id">History</a>
+                                <a class="btn btn-outline-dark" href="employees/edit/@e.Id">Edit</a>
+                                @if (deleteConfirmId == e.Id)
+                                {
+                                    <button class="btn btn-danger" disabled="@busy" @onclick="() => DeleteAsync(e)">
+                                        Confirm?
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-outline-danger" @onclick="() => deleteConfirmId = e.Id">
+                                        Delete
+                                    </button>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private bool loading = true;
+    private bool busy;
+    private string? error;
+    private string search = string.Empty;
+    private int? deleteConfirmId;
+    private List<ApiEmployee> employees = [];
+
+    private IEnumerable<ApiEmployee> FilteredEmployees =>
+        employees.Where(e =>
+            string.IsNullOrWhiteSpace(search) ||
+            e.EmployeeCode.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+            e.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            employees = await Api.GetEmployeesAsync();
+        }
+        catch (Exception ex)
+        {
+            error = $"Could not load employees: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task DeleteAsync(ApiEmployee employee)
+    {
+        busy = true;
+        try
+        {
+            await Api.DeleteEmployeeAsync(employee.Id);
+            employees.RemoveAll(e => e.Id == employee.Id);
+            deleteConfirmId = null;
+            Toasts.ShowSuccess($"Employee {employee.EmployeeCode} deleted.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+            deleteConfirmId = null;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+}

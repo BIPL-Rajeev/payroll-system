@@ -1,0 +1,100 @@
+@page "/"
+@inject ApiClient Api
+
+<PageTitle>Dashboard - PayrollWeb</PageTitle>
+
+<h3 class="mb-4">Dashboard</h3>
+
+@if (loading)
+{
+    <Spinner Text="Loading dashboard..." />
+}
+else if (error is not null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card text-bg-primary">
+                <div class="card-body">
+                    <div class="card-title small text-white-50">Total Employees</div>
+                    <div class="display-5">@totalEmployees</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-success">
+                <div class="card-body">
+                    <div class="card-title small text-white-50">Payroll Runs This Month</div>
+                    <div class="display-5">@runsThisMonth</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-secondary">
+                <div class="card-body">
+                    <div class="card-title small text-white-50">Quick Links</div>
+                    <a href="employees" class="btn btn-sm btn-light me-2">Employees</a>
+                    <a href="employees/add" class="btn btn-sm btn-outline-light">Add Employee</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5>Employees</h5>
+    @if (employees.Count == 0)
+    {
+        <p class="text-muted">No employees yet. <a href="employees/add">Add your first employee</a>.</p>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var e in employees)
+            {
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@e.EmployeeCode</strong> - @e.Name
+                        <span class="badge text-bg-light ms-2">@e.State</span>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-outline-primary" href="payroll/run/@e.Id">Run Payroll</a>
+                        <a class="btn btn-outline-secondary" href="payroll/history/@e.Id">History</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    private bool loading = true;
+    private string? error;
+    private int totalEmployees;
+    private int runsThisMonth;
+    private List<ApiEmployee> employees = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            employees = await Api.GetEmployeesAsync();
+            totalEmployees = employees.Count;
+
+            var now = DateTime.Now;
+            var histories = await Task.WhenAll(employees.Select(e => Api.GetHistoryAsync(e.Id)));
+            runsThisMonth = histories
+                .SelectMany(h => h)
+                .Count(r => r.MonthNumber == now.Month && r.Year == now.Year);
+        }
+        catch (Exception ex)
+        {
+            error = $"Could not load dashboard: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

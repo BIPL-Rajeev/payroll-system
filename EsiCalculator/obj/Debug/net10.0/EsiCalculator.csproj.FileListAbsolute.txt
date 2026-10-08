@@ -1,0 +1,14 @@
+E:\Freebuff\EsiCalculator\bin\Debug\net10.0\EsiCalculator.exe
+E:\Freebuff\EsiCalculator\bin\Debug\net10.0\EsiCalculator.deps.json
+E:\Freebuff\EsiCalculator\bin\Debug\net10.0\EsiCalculator.runtimeconfig.json
+E:\Freebuff\EsiCalculator\bin\Debug\net10.0\EsiCalculator.dll
+E:\Freebuff\EsiCalculator\bin\Debug\net10.0\EsiCalculator.pdb
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.AssemblyInfoInputs.cache
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.AssemblyInfo.cs
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.csproj.CoreCompileInputs.cache
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.dll
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\refint\EsiCalculator.dll
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.pdb
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\EsiCalculator.genruntimeconfig.cache
+E:\Freebuff\EsiCalculator\obj\Debug\net10.0\ref\EsiCalculator.dll

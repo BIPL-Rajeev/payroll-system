@@ -1,0 +1,67 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "PayrollCalculator/1.0.0": {
+        "dependencies": {
+          "EsiCalculator": "1.0.0",
+          "PtCalculator": "1.0.0",
+          "TdsCalculator": "1.0.0"
+        },
+        "runtime": {
+          "PayrollCalculator.dll": {}
+        }
+      },
+      "EsiCalculator/1.0.0": {
+        "runtime": {
+          "EsiCalculator.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "PtCalculator/1.0.0": {
+        "runtime": {
+          "PtCalculator.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "TdsCalculator/1.0.0": {
+        "runtime": {
+          "TdsCalculator.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PayrollCalculator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EsiCalculator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PtCalculator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TdsCalculator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

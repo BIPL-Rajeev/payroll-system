@@ -1,0 +1,144 @@
+@page "/payroll/run/{employeeId:int}"
+@inject ApiClient Api
+@inject ToastService Toasts
+
+<PageTitle>Run Payroll - PayrollWeb</PageTitle>
+
+<h3 class="mb-3">Run Payroll</h3>
+
+@if (loading)
+{
+    <Spinner Text="Loading employee..." />
+}
+else if (employee is null)
+{
+    <div class="alert alert-danger">Employee @EmployeeId not found.</div>
+    <a class="btn btn-outline-secondary" href="employees">Back to employees</a>
+}
+else
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>@employee.EmployeeCode</strong> - @employee.Name
+            <span class="badge text-bg-light ms-2">@employee.State</span>
+            <span class="badge text-bg-light">@(employee.TaxRegime == "old" ? "Old regime" : "New regime")</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Month</label>
+                    <InputSelect class="form-select" @bind-Value="month">
+                        @for (int m = 1; m <= 12; m++)
+                        {
+                            <option value="@m">@MonthNames.Get(m)</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Year</label>
+                    <InputNumber class="form-control" @bind-Value="year" />
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary" disabled="@busy" @onclick="RunAsync">
+                        @if (busy)
+                        {
+                            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                        }
+                        Run Payroll
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (result is not null)
+    {
+        <div class="card mb-4" id="run-result">
+            <div class="card-header bg-success text-white d-flex justify-content-between">
+                <span>Salary Slip - @MonthNames.Get(result.MonthNumber) @result.Year</span>
+                <a class="btn btn-sm btn-outline-light" href="payroll/slip/@result.PayrollRunId">View full slip</a>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col"><div class="text-muted small">Gross</div><strong>@Inr.Format(result.GrossSalary)</strong></div>
+                    <div class="col"><div class="text-muted small">Deductions</div><strong>@Inr.Format(result.TotalDeductions)</strong></div>
+                    <div class="col"><div class="text-muted small">Net Pay</div><strong class="text-success">@Inr.Format(result.NetPay)</strong></div>
+                    <div class="col"><div class="text-muted small">Employer Cost</div><strong>@Inr.Format(result.TotalEmployerCost)</strong></div>
+                    <div class="col"><div class="text-muted small">CTC</div><strong>@Inr.Format(result.TotalCtc)</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr><th>Component</th><th>Type</th><th class="text-end">Amount</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var d in result.Details)
+                {
+                    <tr>
+                        <td>@d.ComponentName</td>
+                        <td><span class="badge text-bg-light">@d.ComponentType</span></td>
+                        <td class="text-end">@Inr.Format(d.Amount)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    [Parameter] public int EmployeeId { get; set; }
+
+    private bool loading = true;
+    private bool busy;
+    private ApiEmployee? employee;
+    private int month = DateTime.Now.Month;
+    private int year = DateTime.Now.Year;
+    private PayrollRunResult? result;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            employee = await Api.GetEmployeeAsync(EmployeeId);
+            if (employee is null)
+            {
+                Toasts.ShowError($"Employee {EmployeeId} not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task RunAsync()
+    {
+        if (year < 2000 || year > 2100)
+        {
+            Toasts.ShowError("Year must be between 2000 and 2100.");
+            return;
+        }
+
+        busy = true;
+        try
+        {
+            result = await Api.RunPayrollAsync(EmployeeId, month, year);
+            Toasts.ShowSuccess(
+                $"Payroll for {MonthNames.Get(result.MonthNumber)} {result.Year} saved - net {Inr.Format(result.NetPay)}.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+}

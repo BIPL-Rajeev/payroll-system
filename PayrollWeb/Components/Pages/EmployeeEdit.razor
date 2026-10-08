@@ -1,0 +1,53 @@
+@page "/employees/edit/{id:int}"
+@inject ApiClient Api
+@inject ToastService Toasts
+
+<PageTitle>Edit Employee - PayrollWeb</PageTitle>
+
+<h3 class="mb-3">Edit Employee</h3>
+
+@if (loading)
+{
+    <Spinner Text="Loading employee..." />
+}
+else if (employee is null)
+{
+    <div class="alert alert-danger">Employee @Id not found.</div>
+    <a class="btn btn-outline-secondary" href="employees">Back to employees</a>
+}
+else
+{
+    <EmployeeForm Model="model" EmployeeId="Id" SubmitLabel="Save Changes" FormName="edit-employee" />
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private bool loading = true;
+    private ApiEmployee? employee;
+    private EmployeeFormModel model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            employee = await Api.GetEmployeeAsync(Id);
+            if (employee is not null)
+            {
+                model = EmployeeFormModel.FromApi(employee);
+            }
+            else
+            {
+                Toasts.ShowError($"Employee {Id} not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

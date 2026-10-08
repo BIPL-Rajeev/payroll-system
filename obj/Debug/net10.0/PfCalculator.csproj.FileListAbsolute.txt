@@ -1,0 +1,14 @@
+E:\Freebuff\bin\Debug\net10.0\PfCalculator.exe
+E:\Freebuff\bin\Debug\net10.0\PfCalculator.deps.json
+E:\Freebuff\bin\Debug\net10.0\PfCalculator.runtimeconfig.json
+E:\Freebuff\bin\Debug\net10.0\PfCalculator.dll
+E:\Freebuff\bin\Debug\net10.0\PfCalculator.pdb
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.GeneratedMSBuildEditorConfig.editorconfig
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.AssemblyInfoInputs.cache
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.AssemblyInfo.cs
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.csproj.CoreCompileInputs.cache
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.dll
+E:\Freebuff\obj\Debug\net10.0\refint\PfCalculator.dll
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.pdb
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.genruntimeconfig.cache
+E:\Freebuff\obj\Debug\net10.0\ref\PfCalculator.dll

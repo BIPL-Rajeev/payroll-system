@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- NOTE: PfCalculator.csproj is intentionally NOT referenced: it sits at the
+         repo root, so its default glob would pull every test project's sources
+         into this build. Its PF formula is mirrored in PayrollCalculatorCore. -->
+    <ProjectReference Include="..\EsiCalculator\EsiCalculator.csproj" />
+    <ProjectReference Include="..\TdsCalculator\TdsCalculator.csproj" />
+    <ProjectReference Include="..\PtCalculator\PtCalculator.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
