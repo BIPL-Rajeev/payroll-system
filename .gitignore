@@ -29,3 +29,6 @@ Thumbs.db
 appsettings.Development.json
 *.pfx
 *.key
+
+publish/
+*.publish/
