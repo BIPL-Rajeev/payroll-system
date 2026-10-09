@@ -1,8 +1,16 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.JSInterop;
 
 namespace PayrollWeb.Services;
+
+/// <summary>A binary file downloaded from the API (xlsx / pdf) plus its server-suggested filename.</summary>
+public sealed record ApiFileDownload(byte[] Content, string? FileName)
+{
+    public string FileNameOr(string fallback) =>
+        string.IsNullOrWhiteSpace(FileName) ? fallback : FileName;
+}
 
 /// <summary>Holds the JWT token + basic user info for the Blazor session (scoped, per circuit).</summary>
 public sealed class AuthState
@@ -64,6 +72,23 @@ public sealed class AuthService(HttpClient http, AuthState auth)
     }
 
     public void Logout() => auth.Clear();
+
+    /// <summary>Fetches a binary export and triggers a browser download via JS interop.</summary>
+    public async Task DownloadFileAsync(IJSRuntime js, string url, string fallbackName)
+    {
+        var response = await http.GetAsync(url);
+        await ApiClient.EnsureSuccessPublicAsync(response);
+
+        string? fileName = response.Content.Headers.ContentDisposition?.FileName;
+        var download = new ApiFileDownload(
+            await response.Content.ReadAsByteArrayAsync(), fileName);
+
+        await js.InvokeVoidAsync(
+            "downloadFile",
+            download.FileNameOr(fallbackName),
+            response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream",
+            Convert.ToBase64String(download.Content));
+    }
 
     private sealed record LoginResponse(string Token, string Username, string Role);
 }

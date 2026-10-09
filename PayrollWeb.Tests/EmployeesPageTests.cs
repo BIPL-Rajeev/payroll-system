@@ -39,6 +39,9 @@ public class EmployeesPageTests : BunitContext
         Services.AddSingleton(http);
         Services.AddScoped<ApiClient>();
         Services.AddScoped<ToastService>();
+        // Excel export buttons resolve AuthService / AuthState at render time.
+        Services.AddScoped<AuthState>();
+        Services.AddScoped<AuthService>();
         return handler;
     }
 

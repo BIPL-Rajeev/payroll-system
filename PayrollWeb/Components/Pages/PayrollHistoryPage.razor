@@ -2,6 +2,8 @@
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 @inject ApiClient Api
+@inject AuthService Auth
+@inject IJSRuntime JS
 @inject ToastService Toasts
 
 <PageTitle>Payroll History - PayrollWeb</PageTitle>
@@ -21,6 +23,13 @@ else
 {
     <div class="mb-3">
         <a class="btn btn-outline-primary btn-sm" href="payroll/run/@EmployeeId">Run new payroll</a>
+        <button class="btn btn-outline-success btn-sm ms-2" disabled="@exporting" @onclick="ExportHistoryAsync">
+            @if (exporting)
+            {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            ⬇ Export History
+        </button>
         <a class="btn btn-outline-secondary btn-sm ms-2" href="employees">Back to employees</a>
     </div>
 
@@ -67,7 +76,27 @@ else
 
     private bool loading = true;
     private bool notFound;
+    private bool exporting;
     private List<PayrollRunSummary> runs = [];
+
+    private async Task ExportHistoryAsync()
+    {
+        exporting = true;
+        try
+        {
+            await Auth.DownloadFileAsync(
+                JS, $"api/export/history/{EmployeeId}", $"payroll_history_{EmployeeId}.xlsx");
+            Toasts.ShowSuccess("History exported to Excel.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            exporting = false;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

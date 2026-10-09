@@ -137,3 +137,12 @@ E:\Freebuff\PayrollWeb\bin\Debug\net10.0\PayrollApi.Core.pdb
 E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.csproj.AssemblyReference.cache
 E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.csproj.Up2Date
 E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.sourcelink.json
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\ClosedXML.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\ClosedXML.Parser.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\ExcelNumberFormat.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\RBush.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\SixLabors.Fonts.dll
+E:\Freebuff\PayrollWeb\bin\Debug\net10.0\System.IO.Packaging.dll
+E:\Freebuff\PayrollWeb\obj\Debug\net10.0\compressed\g751tpgeu9-{0}-v1bz1bzjjf-v1bz1bzjjf.gz

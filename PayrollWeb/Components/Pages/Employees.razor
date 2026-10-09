@@ -2,13 +2,24 @@
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 @inject ApiClient Api
+@inject AuthService Auth
+@inject IJSRuntime JS
 @inject ToastService Toasts
 
 <PageTitle>Employees - PayrollWeb</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Employees</h3>
-    <a class="btn btn-primary" href="employees/add">+ Add New</a>
+    <div>
+        <button class="btn btn-outline-success me-2" disabled="@exporting" @onclick="ExportAllAsync">
+            @if (exporting)
+            {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            ⬇ Export All to Excel
+        </button>
+        <a class="btn btn-primary" href="employees/add">+ Add New</a>
+    </div>
 </div>
 
 @if (loading)
@@ -85,6 +96,7 @@ else
 @code {
     private bool loading = true;
     private bool busy;
+    private bool exporting;
     private string? error;
     private string search = string.Empty;
     private int? deleteConfirmId;
@@ -109,6 +121,24 @@ else
         finally
         {
             loading = false;
+        }
+    }
+
+    private async Task ExportAllAsync()
+    {
+        exporting = true;
+        try
+        {
+            await Auth.DownloadFileAsync(JS, "/api/export/employees", "employees.xlsx");
+            Toasts.ShowSuccess("Employees exported to Excel.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            exporting = false;
         }
     }
 

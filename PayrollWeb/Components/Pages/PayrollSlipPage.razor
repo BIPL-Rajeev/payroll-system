@@ -2,8 +2,9 @@
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 @inject ApiClient Api
-@inject ToastService Toasts
+@inject AuthService Auth
 @inject IJSRuntime JS
+@inject ToastService Toasts
 @inject HttpClient Http
 
 <PageTitle>Salary Slip - PayrollWeb</PageTitle>
@@ -14,9 +15,20 @@
         <button class="btn btn-primary" @onclick="PrintAsync">
             🖨 Print
         </button>
-        <a class="btn btn-success ms-2" href="@PdfUrl" target="_blank" rel="noopener">
+        <button class="btn btn-success ms-2" disabled="@downloadingPdf" @onclick="DownloadPdfAsync">
+            @if (downloadingPdf)
+            {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
             ⬇ Download PDF
-        </a>
+        </button>
+        <button class="btn btn-success ms-2" disabled="@downloadingExcel" @onclick="DownloadExcelAsync">
+            @if (downloadingExcel)
+            {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            ⬇ Download Excel
+        </button>
         <a class="btn btn-outline-secondary ms-2" href="payroll/history/@slip?.EmployeeId">Back to history</a>
     </div>
 </div>
@@ -110,6 +122,8 @@ else
     [Parameter] public int PayrollRunId { get; set; }
 
     private bool loading = true;
+    private bool downloadingPdf;
+    private bool downloadingExcel;
     private PayrollRunResult? slip;
 
     private IEnumerable<PayrollRunDetailLine> Details(string type) =>
@@ -134,4 +148,35 @@ else
     private string PdfUrl => $"{Http.BaseAddress}api/payroll/slip/{PayrollRunId}/pdf";
 
     private async Task PrintAsync() => await JS.InvokeVoidAsync("window.print");
+
+    // Authenticated download through the API (bearer token attached by the handler).
+    private Task DownloadPdfAsync() => DownloadAsync(
+        $"api/payroll/slip/{PayrollRunId}/pdf",
+        $"payslip_{slip?.EmployeeId}_{slip?.MonthNumber}_{slip?.Year}.pdf",
+        () => downloadingPdf = true,
+        () => downloadingPdf = false);
+
+    private Task DownloadExcelAsync() => DownloadAsync(
+        $"api/export/payroll/{PayrollRunId}",
+        $"payslip_{slip?.EmployeeId}_{slip?.MonthNumber}_{slip?.Year}.xlsx",
+        () => downloadingExcel = true,
+        () => downloadingExcel = false);
+
+    private async Task DownloadAsync(string url, string fallbackName, Action setBusy, Action clearBusy)
+    {
+        setBusy();
+        try
+        {
+            await Auth.DownloadFileAsync(JS, url, fallbackName);
+            Toasts.ShowSuccess("Download ready.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            clearBusy();
+        }
+    }
 }

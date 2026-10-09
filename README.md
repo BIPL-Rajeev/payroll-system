@@ -85,6 +85,45 @@ A full-stack Indian payroll system built with .NET 10, featuring PF, TDS, ESI, P
 - `GET /api/form16/{employeeId}/{financialYear}` -> Form 16 Part B JSON
 - `GET /api/form16/{employeeId}/{financialYear}/pdf` -> downloadable PDF
 
+## Excel export (ClosedXML)
+
+Downloadable `.xlsx` exports, all requiring the **Admin or HR** role (Viewer -> 403):
+
+- `GET /api/export/employees` -> `employees.xlsx` (code, name, state, regime, basic, HRA, DA, gross, active)
+- `GET /api/export/payroll/{payrollRunId}` -> `payslip_{code}_{Month}_{Year}.xlsx`
+  (earnings / deductions / employer contributions sections)
+- `GET /api/export/payroll-register/{month}/{year}` -> `payroll_register_{month}_{year}.xlsx`
+  (one row per employee, columns Gross / EmployeePF / EmployeeESI / PT / TDS / TotalDeductions /
+  NetPay / EmployerPF / EmployerESI / TotalCTC, plus a bold TOTAL row; 404 when no runs exist)
+- `GET /api/export/form16/{employeeId}/{financialYear}` -> `form16_{code}_{FY}.xlsx`
+  (all eight Form 16 Part B sections in one sheet)
+- `GET /api/export/history/{employeeId}` -> `payroll_history_{code}.xlsx`
+  (one row per run with a TOTAL row; backs the Blazor "Export History" button)
+
+Salary columns use the Indian currency number format `Rs #,##,##0.00`
+(en-IN grouping, e.g. Rs 1,23,456.00); headers are bold and columns auto-fit.
+
+Sample curls (token from `POST /api/auth/login`):
+
+```bash
+# Employee master
+curl -OJ http://localhost:5000/api/export/employees -H "Authorization: Bearer $TOKEN"
+
+# One payslip
+curl -OJ http://localhost:5000/api/export/payroll/4 -H "Authorization: Bearer $TOKEN"
+
+# Full monthly register
+curl -OJ http://localhost:5000/api/export/payroll-register/1/2026 -H "Authorization: Bearer $TOKEN"
+
+# Form 16 data
+curl -OJ http://localhost:5000/api/export/form16/6/2025-26 -H "Authorization: Bearer $TOKEN"
+```
+
+The Blazor UI adds matching buttons: "Export All to Excel" on `/employees`,
+"Download Excel" on the payslip and Form 16 pages, and "Export History" on the
+payroll history page (downloads go through the authenticated HttpClient and are
+saved via a small JS helper).
+
 ## Authentication (JWT)
 
 All API endpoints require a JWT bearer token except `POST /api/auth/login`:

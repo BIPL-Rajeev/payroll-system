@@ -253,6 +253,7 @@ app.MapEmployeeEndpoints();
 app.MapPayrollRunEndpoints();
 app.MapForm16Endpoints();
 app.MapAuthEndpoints();
+app.MapExportEndpoints();
 
 app.Run();
 

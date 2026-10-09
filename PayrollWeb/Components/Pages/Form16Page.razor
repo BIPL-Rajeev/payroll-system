@@ -3,7 +3,8 @@
 @using Microsoft.AspNetCore.Authorization
 @using PayrollApi.Core.Services
 @inject ApiClient Api
-@inject HttpClient Http
+@inject AuthService Auth
+@inject IJSRuntime JS
 @inject ToastService Toasts
 
 <PageTitle>Form 16 - PayrollWeb</PageTitle>
@@ -54,7 +55,22 @@ else
     {
         <div class="d-flex justify-content-between align-items-center mb-2 no-print">
             <span class="text-muted">Generated on @form.GeneratedOn</span>
-            <a class="btn btn-success" href="@PdfUrl" target="_blank" rel="noopener">⬇ Download PDF</a>
+            <div>
+                <button class="btn btn-success" disabled="@exportingExcel" @onclick="DownloadExcelAsync">
+                    @if (exportingExcel)
+                    {
+                        <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                    }
+                    ⬇ Download Excel
+                </button>
+                <button class="btn btn-success ms-2" disabled="@downloadingPdf" @onclick="DownloadPdfAsync">
+                    @if (downloadingPdf)
+                    {
+                        <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                    }
+                    ⬇ Download PDF
+                </button>
+            </div>
         </div>
 
         <!-- SECTION 1 -->
@@ -189,13 +205,43 @@ else
 
     private bool loading = true;
     private bool busy;
+    private bool downloadingPdf;
+    private bool exportingExcel;
     private List<ApiEmployee> employees = [];
     private List<string> financialYears = [];
     private int selectedEmployeeId;
     private string financialYear = string.Empty;
     private Form16PartB? form;
 
-    private string PdfUrl => $"{Http.BaseAddress}api/form16/{selectedEmployeeId}/{financialYear}/pdf";
+    private Task DownloadPdfAsync() => DownloadAsync(
+        $"api/form16/{selectedEmployeeId}/{financialYear}/pdf",
+        $"form16_{selectedEmployeeId}_{financialYear}.pdf",
+        () => downloadingPdf = true,
+        () => downloadingPdf = false);
+
+    private Task DownloadExcelAsync() => DownloadAsync(
+        $"api/export/form16/{selectedEmployeeId}/{financialYear}",
+        $"form16_{selectedEmployeeId}_{financialYear}.xlsx",
+        () => exportingExcel = true,
+        () => exportingExcel = false);
+
+    private async Task DownloadAsync(string url, string fallbackName, Action setBusy, Action clearBusy)
+    {
+        setBusy();
+        try
+        {
+            await Auth.DownloadFileAsync(JS, url, fallbackName);
+            Toasts.ShowSuccess("Download ready.");
+        }
+        catch (Exception ex)
+        {
+            Toasts.ShowError(ex.Message);
+        }
+        finally
+        {
+            clearBusy();
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

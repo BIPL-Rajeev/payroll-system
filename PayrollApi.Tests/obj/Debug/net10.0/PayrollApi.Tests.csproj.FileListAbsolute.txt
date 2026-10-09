@@ -482,3 +482,11 @@ E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols
 E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
 E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
 E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\PayrollApi.Tests.sourcelink.json
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\ClosedXML.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\ClosedXML.Parser.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\ExcelNumberFormat.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\RBush.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\SixLabors.Fonts.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\System.IO.Packaging.dll

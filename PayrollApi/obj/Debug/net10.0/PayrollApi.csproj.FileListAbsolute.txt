@@ -179,3 +179,11 @@ E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\ClosedXML.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\ClosedXML.Parser.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\ExcelNumberFormat.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\RBush.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\SixLabors.Fonts.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\System.IO.Packaging.dll
