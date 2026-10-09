@@ -37,7 +37,8 @@ public static class EmployeeEndpoints
 
             return Results.Created($"/api/employees/{employee.Id}", employee);
         })
-        .WithName("CreateEmployee");
+        .WithName("CreateEmployee")
+        .RequireAuthorization(UserRoles.WritePolicy);
 
         // GET /api/employees - list all active employees.
         group.MapGet("/", async (AppDbContext db) =>
@@ -48,7 +49,8 @@ public static class EmployeeEndpoints
                 .ToListAsync();
             return Results.Ok(employees);
         })
-        .WithName("ListEmployees");
+        .WithName("ListEmployees")
+        .RequireAuthorization();
 
         // GET /api/employees/{id} - get one (404 if missing or soft-deleted).
         group.MapGet("/{id:int}", async (int id, AppDbContext db) =>
@@ -58,7 +60,8 @@ public static class EmployeeEndpoints
                 ? Results.NotFound(new { error = $"Employee {id} not found." })
                 : Results.Ok(employee);
         })
-        .WithName("GetEmployee");
+        .WithName("GetEmployee")
+        .RequireAuthorization();
 
         // PUT /api/employees/{id} - update.
         group.MapPut("/{id:int}", async (int id, EmployeeRequest request, AppDbContext db, ILogger<Program> logger) =>
@@ -90,7 +93,8 @@ public static class EmployeeEndpoints
 
             return Results.Ok(employee);
         })
-        .WithName("UpdateEmployee");
+        .WithName("UpdateEmployee")
+        .RequireAuthorization(UserRoles.WritePolicy);
 
         // DELETE /api/employees/{id} - soft delete (IsActive = false).
         group.MapDelete("/{id:int}", async (int id, AppDbContext db, ILogger<Program> logger) =>
@@ -108,7 +112,8 @@ public static class EmployeeEndpoints
 
             return Results.NoContent();
         })
-        .WithName("DeleteEmployee");
+        .WithName("DeleteEmployee")
+        .RequireAuthorization(UserRoles.WritePolicy);
     }
 
     /// <summary>Shared validation: returns an error message or null when valid.</summary>

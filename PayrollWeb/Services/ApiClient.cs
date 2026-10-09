@@ -71,6 +71,10 @@ public sealed class ApiClient(HttpClient http)
         return result ?? throw new ApiException("Empty response from API.");
     }
 
+    /// <summary>Throws <see cref="ApiException"/> with the server error message on non-success.</summary>
+    internal static Task EnsureSuccessPublicAsync(HttpResponseMessage response) =>
+        EnsureSuccessAsync(response);
+
     private static async Task EnsureSuccessAsync(HttpResponseMessage response)
     {
         if (response.IsSuccessStatusCode)

@@ -13,3 +13,4 @@ E:\Freebuff\PayrollApi.Core\obj\Debug\net10.0\PayrollApi.Core.csproj.AssemblyRef
 E:\Freebuff\PayrollApi.Core\bin\Debug\net10.0\PayrollApi.Core.runtimeconfig.json
 E:\Freebuff\PayrollApi.Core\obj\Debug\net10.0\PayrollApi.Core.genruntimeconfig.cache
 E:\Freebuff\PayrollApi.Core\bin\Debug\net10.0\QuestPDF.Fonts.Lato.br
+E:\Freebuff\PayrollApi.Core\obj\Debug\net10.0\PayrollApi.Core.sourcelink.json

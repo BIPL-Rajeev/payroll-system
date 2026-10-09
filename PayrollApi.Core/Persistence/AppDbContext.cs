@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<PayrollRun> PayrollRuns => Set<PayrollRun>();
     public DbSet<PayrollRunDetail> PayrollRunDetails => Set<PayrollRunDetail>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,6 +55,15 @@ public class AppDbContext : DbContext
                   .WithMany(e => e.PayrollRuns)
                   .HasForeignKey(r => r.EmployeeId)
                   .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasIndex(u => u.Username).IsUnique();
+            entity.Property(u => u.Username).IsRequired().HasMaxLength(96);
+            entity.Property(u => u.PasswordHash).IsRequired().HasMaxLength(256);
+            entity.Property(u => u.Role).IsRequired().HasMaxLength(32);
+            entity.Property(u => u.IsActive).HasDefaultValue(true);
         });
 
         modelBuilder.Entity<PayrollRunDetail>(entity =>

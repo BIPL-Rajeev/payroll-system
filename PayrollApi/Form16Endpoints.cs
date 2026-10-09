@@ -51,7 +51,8 @@ public static class Form16Endpoints
                 employeeId, financialYear, form.Tax.TotalTaxPayable, form.Tds.TotalTdsDeducted);
             return Results.Ok(form);
         })
-        .WithName("Form16");
+        .WithName("Form16")
+        .RequireAuthorization();
 
         // GET /api/form16/{employeeId}/{financialYear}/pdf - downloadable PDF.
         app.MapGet("/api/form16/{employeeId:int}/{financialYear}/pdf", async (
@@ -96,6 +97,7 @@ public static class Form16Endpoints
             logger.LogInformation("Form16 PDF generated: employeeId={Id} file={File}", employeeId, filename);
             return Results.File(pdf, "application/pdf", filename);
         })
-        .WithName("Form16Pdf");
+        .WithName("Form16Pdf")
+        .RequireAuthorization();
     }
 }

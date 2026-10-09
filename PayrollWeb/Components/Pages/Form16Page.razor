@@ -1,4 +1,6 @@
 @page "/form16/{employeeId:int}"
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
 @using PayrollApi.Core.Services
 @inject ApiClient Api
 @inject HttpClient Http

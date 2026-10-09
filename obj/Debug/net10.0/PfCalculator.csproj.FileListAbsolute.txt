@@ -12,3 +12,5 @@ E:\Freebuff\obj\Debug\net10.0\refint\PfCalculator.dll
 E:\Freebuff\obj\Debug\net10.0\PfCalculator.pdb
 E:\Freebuff\obj\Debug\net10.0\PfCalculator.genruntimeconfig.cache
 E:\Freebuff\obj\Debug\net10.0\ref\PfCalculator.dll
+E:\Freebuff\obj\Debug\net10.0\PfCalculator.sourcelink.json
+E:\Freebuff\obj\Debug\net10.0\PfCalcul.79FFA809.Up2Date

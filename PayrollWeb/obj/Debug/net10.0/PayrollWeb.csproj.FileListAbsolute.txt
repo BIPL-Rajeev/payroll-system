@@ -136,3 +136,4 @@ E:\Freebuff\PayrollWeb\bin\Debug\net10.0\PayrollApi.Core.dll
 E:\Freebuff\PayrollWeb\bin\Debug\net10.0\PayrollApi.Core.pdb
 E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.csproj.AssemblyReference.cache
 E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.csproj.Up2Date
+E:\Freebuff\PayrollWeb\obj\Debug\net10.0\PayrollWeb.sourcelink.json

@@ -14,6 +14,7 @@ public class PayrollApiTests : IClassFixture<PayrollApiFactory>
     public PayrollApiTests(PayrollApiFactory factory)
     {
         _client = factory.CreateClient();
+        _client.LoginAsAdminAsync().Wait();
     }
 
     // Valid payload: Maharashtra, Rs 50,000 basic + 20,000 HRA + 5,000 DA + 5,000 special,

@@ -1,4 +1,6 @@
 @page "/payroll/run/{employeeId:int}"
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
 @inject ApiClient Api
 @inject ToastService Toasts
 

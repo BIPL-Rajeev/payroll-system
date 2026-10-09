@@ -471,3 +471,14 @@ E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\refint\PayrollApi.Tests.dll
 E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\PayrollApi.Tests.pdb
 E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\PayrollApi.Tests.genruntimeconfig.cache
 E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\ref\PayrollApi.Tests.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\BCrypt-Net-Next.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+E:\Freebuff\PayrollApi.Tests\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Freebuff\PayrollApi.Tests\obj\Debug\net10.0\PayrollApi.Tests.sourcelink.json

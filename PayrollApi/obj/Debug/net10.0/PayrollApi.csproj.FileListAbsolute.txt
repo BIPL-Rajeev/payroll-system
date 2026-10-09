@@ -168,3 +168,14 @@ E:\Freebuff\PayrollApi\bin\Debug\net10.0\runtimes\win-x64\native\QuestPdfSkia.dl
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\runtimes\win-x64\native\qpdf.dll
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\runtimes\win-x86\native\QuestPdfSkia.dll
 E:\Freebuff\PayrollApi\bin\Debug\net10.0\runtimes\win-x86\native\qpdf.dll
+E:\Freebuff\PayrollApi\obj\Debug\net10.0\PayrollApi.sourcelink.json
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\BCrypt-Net-Next.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+E:\Freebuff\PayrollApi\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll

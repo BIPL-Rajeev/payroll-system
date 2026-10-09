@@ -163,3 +163,4 @@ E:\Freebuff\PayrollWeb.Tests\obj\Debug\net10.0\refint\PayrollWeb.Tests.dll
 E:\Freebuff\PayrollWeb.Tests\obj\Debug\net10.0\PayrollWeb.Tests.pdb
 E:\Freebuff\PayrollWeb.Tests\obj\Debug\net10.0\PayrollWeb.Tests.genruntimeconfig.cache
 E:\Freebuff\PayrollWeb.Tests\obj\Debug\net10.0\ref\PayrollWeb.Tests.dll
+E:\Freebuff\PayrollWeb.Tests\obj\Debug\net10.0\PayrollWeb.Tests.sourcelink.json

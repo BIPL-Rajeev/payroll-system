@@ -55,7 +55,8 @@ public static class PayrollRunEndpoints
 
             return Results.Ok(ToRunResponse(run));
         })
-        .WithName("RunPayroll");
+        .WithName("RunPayroll")
+        .RequireAuthorization(UserRoles.WritePolicy);
 
         // GET /api/payroll/history/{employeeId} - all past payroll runs for an employee.
         app.MapGet("/api/payroll/history/{employeeId:int}", async (
@@ -89,7 +90,8 @@ public static class PayrollRunEndpoints
 
             return Results.Ok(runs);
         })
-        .WithName("PayrollHistory");
+        .WithName("PayrollHistory")
+        .RequireAuthorization();
 
         // GET /api/payroll/slip/{payrollRunId} - one slip with all details.
         app.MapGet("/api/payroll/slip/{payrollRunId:int}", async (
@@ -103,7 +105,8 @@ public static class PayrollRunEndpoints
                 ? Results.NotFound(new { error = $"Payroll run {payrollRunId} not found." })
                 : Results.Ok(ToRunResponse(run));
         })
-        .WithName("PayrollSlip");
+        .WithName("PayrollSlip")
+        .RequireAuthorization();
 
         // GET /api/payroll/slip/{payrollRunId}/pdf - downloadable PDF payslip.
         app.MapGet("/api/payroll/slip/{payrollRunId:int}/pdf", async (
@@ -134,7 +137,8 @@ public static class PayrollRunEndpoints
 
             return Results.File(pdf, "application/pdf", filename);
         })
-        .WithName("PayrollSlipPdf");
+        .WithName("PayrollSlipPdf")
+        .RequireAuthorization();
     }
 
     /// <summary>Maps a stored employee onto the calculator input.</summary>

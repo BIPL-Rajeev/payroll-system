@@ -1,0 +1,69 @@
+@page "/login"
+@inject AuthService Auth
+@inject NavigationManager Navigation
+@inject ToastService Toasts
+
+<PageTitle>Login - PayrollWeb</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-3">PayrollWeb Login</h3>
+
+                <div class="form-outline mb-2">
+                    <label class="form-label" for="login-user">Username</label>
+                    <input id="login-user" class="form-control" @bind="username"
+                           placeholder="username" autofocus />
+                </div>
+
+                <div class="form-outline mb-3">
+                    <label class="form-label" for="login-pass">Password</label>
+                    <input id="login-pass" class="form-control" type="password" @bind="password"
+                           placeholder="password" @bind:after="OnPasswordChangedAsync" />
+                </div>
+
+                @if (error is not null)
+                {
+                    <div class="alert alert-danger py-2 mb-3">@error</div>
+                }
+
+                <button class="btn btn-primary w-100" disabled="@busy" @onclick="LoginAsync">
+                    @(busy ? "Logging in..." : "Login")
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string? error;
+    private bool busy;
+
+    private async Task OnPasswordChangedAsync() =>
+        await Task.CompletedTask; // placeholder hook for future enter-key handling
+
+    private async Task LoginAsync()
+    {
+        busy = true;
+        error = null;
+        try
+        {
+            await Auth.LoginAsync(username, password);
+            Toasts.ShowSuccess($"Welcome, {username}!");
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message.Contains("401") || ex.Message.Contains("Unauthorized")
+                ? "Invalid username or password."
+                : ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+}

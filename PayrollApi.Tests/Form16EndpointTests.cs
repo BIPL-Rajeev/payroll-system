@@ -15,6 +15,7 @@ public class Form16EndpointTests : IClassFixture<PayrollApiFactory>
     public Form16EndpointTests(PayrollApiFactory factory)
     {
         _client = factory.CreateClient();
+        _client.LoginAsAdminAsync().Wait();
     }
 
     private static object EmployeePayload(string code) => new

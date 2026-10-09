@@ -1,6 +1,9 @@
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject ToastService Toasts
+@inject AuthState Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
 
 <div class="page">
     <div class="sidebar">
@@ -8,8 +11,15 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        <div class="top-row px-4 d-flex justify-content-between align-items-center">
             <span class="text-muted">Indian Payroll - FY 2025-26</span>
+            @if (Auth.IsLoggedIn)
+            {
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge text-bg-light">@Auth.Username (@Auth.Role)</span>
+                    <button class="btn btn-outline-secondary btn-sm" @onclick="LogoutAsync">Logout</button>
+                </div>
+            }
         </div>
 
         <article class="content px-4">
@@ -43,6 +53,12 @@
     }
 
     private void OnToastChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private void LogoutAsync()
+    {
+        AuthService.Logout();
+        Navigation.NavigateTo("/login", forceLoad: true);
+    }
 
     public void Dispose() => Toasts.OnChange -= OnToastChanged;
 }

@@ -1,10 +1,15 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using QuestPDF.Infrastructure;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
 using PayrollApi;
 using PayrollApi.Core;
 using PayrollApi.Core.Persistence;
+using PayrollApi.Services;
+using QuestPDF.Infrastructure;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.OpenApi;
 
 // QuestPDF Community license (required before generating any document).
 QuestPDF.Settings.License = LicenseType.Community;
@@ -29,6 +34,23 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "Indian payroll calculator API (FY 2025-26): PF + ESI + Professional Tax + TDS.",
     });
+
+    // Bearer token support in Swagger UI ("Authorize" button).
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Paste the JWT token from POST /api/auth/login (no \"Bearer \" prefix needed).",
+    });
+    options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecuritySchemeReference("Bearer"),
+            new List<string>()
+        },
+    });
 });
 
 // CORS allowing all origins - for development only.
@@ -40,6 +62,41 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader());
 });
 
+// JWT bearer authentication + role authorization policies:
+//   Writer     -> Admin or HR    (POST/PUT/DELETE)
+//   AdminOnly  -> Admin          (register)
+//   (no policy)-> any authenticated user (GET)
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "PayrollApi",
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "PayrollWeb",
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(
+                    builder.Configuration["Jwt:SecretKey"]
+                    ?? "PayrollApi-super-secret-key-change-me-0123456789-abcdefghijklmno")),
+            ValidateLifetime = true,
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(UserRoles.WritePolicy, policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole(UserRoles.Admin, UserRoles.HR));
+    options.AddPolicy(UserRoles.AdminOnlyPolicy, policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireRole(UserRoles.Admin));
+});
+
+builder.Services.AddSingleton<TokenService>();
+
 // SQLite persistence (connection string in appsettings.json).
 string connectionString = builder.Configuration.GetConnectionString("PayrollDb")
     ?? "Data Source=payroll.db";
@@ -47,11 +104,27 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 var app = builder.Build();
 
-// Apply EF Core migrations at startup (creates payroll.db on first run).
+// Apply EF Core migrations at startup (creates payroll.db on first run) and
+// seed the default admin user when no users exist.
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+
+    if (!db.Users.Any())
+    {
+        db.Users.Add(new PayrollApi.Core.Entities.User
+        {
+            Username = "admin",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+            Role = UserRoles.Admin,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+        });
+        db.SaveChanges();
+        scope.ServiceProvider.GetRequiredService<ILogger<Program>>()
+            .LogInformation("Seeded default admin user (username: admin). Change the password on first login.");
+    }
 }
 
 // Log every request with a simple ILogger.
@@ -67,6 +140,9 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payroll API v1"));
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -75,8 +151,10 @@ if (app.Environment.IsDevelopment())
 
 // ------------------------------ Endpoints ------------------------------
 
+// Health + stateless calculation: any authenticated user (GET / POST-calc read-only).
 app.MapGet("/api/payroll/health", () => Results.Ok(new { status = "ok" }))
-    .WithName("Health");
+    .WithName("Health")
+    .RequireAuthorization();
 
 app.MapPost("/api/payroll/calculate", (EmployeeInput? input, ILogger<Program> logger) =>
 {
@@ -167,12 +245,14 @@ app.MapPost("/api/payroll/calculate", (EmployeeInput? input, ILogger<Program> lo
     }
 })
 .WithName("CalculatePayroll")
-.WithSummary("Computes a complete monthly salary slip (PF + ESI + PT + TDS).");
+.WithSummary("Computes a complete monthly salary slip (PF + ESI + PT + TDS).")
+.RequireAuthorization();
 
 // Persistence endpoints (employee CRUD, payroll runs, history, slips).
 app.MapEmployeeEndpoints();
 app.MapPayrollRunEndpoints();
 app.MapForm16Endpoints();
+app.MapAuthEndpoints();
 
 app.Run();
 
